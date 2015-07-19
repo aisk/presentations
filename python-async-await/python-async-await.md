@@ -4,14 +4,7 @@ author:
   twitter: 艾斯昆
   url: http://aisk.me
 theme: jdan/cleaver-retro
-output: target/python-async-await.html
-
---
-
-# Who am I?
-
-- Pythonista
-- Works @ [LeanCloud](http://leancloud.cn/)
+output: python-async-await.html
 
 --
 
@@ -19,12 +12,20 @@ output: target/python-async-await.html
 
 --
 
-# 历史
+# Who am I?
+
+- @艾斯昆
+- Works @ [LeanCloud](http://leancloud.cn/)
+- Pythonista
+- http://aisk.me/
+
+--
+
+### 历史
 
 - Twisted
 - tornado
 - gevent
-- asyncio
 
 --
 
@@ -42,7 +43,7 @@ output: target/python-async-await.html
 - 缺点：
   - **Not Pythonic** (Javanic?)
   - Callback hell
-  - 第三方 io 库需要重写
+  - 第三方 IO 库需要重写
 
 --
 
@@ -58,19 +59,19 @@ output: target/python-async-await.html
 
 - 缺点：
   - Callback hell
-  - 第三方 io 库需要重写
+  - 第三方 IO 库需要重写
 
 --
 
 ### gevent
 
 - 优点
-  - monkey patch （复用现有第三方 io 库）
+  - monkey patch （复用现有第三方 IO 库）
   - 协程支持（no more callback hell）
 
 --
 
-## gevent
+### gevent
 
 - 缺点
   - too hacky（导致侵入性强）
@@ -78,11 +79,11 @@ output: target/python-async-await.html
 
 --
 
-## 理想中的 Python 异步编程？
+### 理想中的 Python 异步编程？
 
-- 丰富的第三方 io 库
-  - 可直接兼容现有 io 库？
-  - 成为一个标准的 event loop？
+- 丰富的第三方 IO 库
+  - 可直接兼容现有 IO 库？
+  - 社区支持？
 
 - 协程支持
 
@@ -92,7 +93,7 @@ output: target/python-async-await.html
 
 --
 
-# asyncio + async / await
+# asyncio + async/await
 
 --
 
@@ -101,7 +102,7 @@ output: target/python-async-await.html
 - PEP-3156
 - Python 3.4 +
 
-虽然不能复用现有 io 库，但作为一个 Python 内置标准库，生态圈应该会比 Tornado 等异步网络编程框架好。
+虽然不能复用现有 IO 库，但作为一个 Python 内置标准库，生态圈应该会比 Tornado 等异步网络编程框架好。
 
 --
 
@@ -111,7 +112,7 @@ output: target/python-async-await.html
 
 ### 曾经的 yield (generator)
 
-可以挂起当前函数执行，等待异步 io 结束之后再次唤醒。
+可以挂起当前函数执行，等待异步 IO 结束之后再次唤醒。
 
 ```python
 def say_hello():
@@ -198,7 +199,7 @@ Traceback (most recent call last):
 TypeError: 'NoneType' object is not iterable
 ```
 
-……然后服务器就挂了，WTF
+... WTF
 
 --
 
@@ -268,4 +269,4 @@ await 只能在声明为 async 的函数中使用，否则会抛出 SyntaxError�
 
 --
 
-# ![](http://ww1.sinaimg.cn/large/46b69fecjw1eu7ips7v3lj20g00nwdh9.jpg)
+# ![](./images/follow_me.jpg)
