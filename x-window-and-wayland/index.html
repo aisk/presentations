@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>X-Window 与 Wayland 简介与对比</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# X-Window 与 Wayland 简介与对比
+
+---
+
+# 什么是 X-Window
+
+- 发布时间 1984
+- 最新版本 11 （X11）
+- Client / Server 架构
+  - 可以通过 TCP 访问远程服务器上的 GUI 应用
+  - 在本地运行的 GUI 应用可以使用 Unix domain socket 访问
+- 支持协议扩展 👍
+  - XRender
+  - GLX
+  - ...
+- 常见实现：X.Org
+- 如何优雅的装 X
+```bash
+sudo apt-get install xorg
+```
+
+---
+
+class: center, middle
+
+![](./images/x-example.png)
+
+refer [wikipedia](https://en.wikipedia.org/wiki/X_Window_System)
+
+注意 Client 与 Server 的角色区分
+
+---
+
+class: center, middle
+
+## 完美
+
+---
+
+class: center, middle
+
+# 3D ?
+
+![](./images/banzang.jpg)
+
+---
+
+# OpenGL
+
+- 跨平台
+- 业界标准
+
+---
+
+class: center, middle
+
+# OpenGL on X-Window
+
+![](./images/idri.gif)
+
+---
+
+# OpenGL on X-Window 
+
+- 通过 GLX 扩展，将 OpenGL 渲染指令通过网络传输给 X Server
+- X Server 调用硬件相关驱动，进行渲染
+- 相比 2D 内容，需要传递大量数据
+
+---
+
+class: center, middle
+
+![](./images/geyou.jpg)
+
+---
+
+class: middle, center
+
+# DRI (Direct Rendering Infrastructure)
+
+![](./images/dri.gif)
+
+---
+
+class: middle, center
+
+# KMS!
+
+Kernel Mode Settings
+
+---
+
+class: center
+
+# Compositor!
+
+![](./images/comp1.png)
+![](./images/comp2.png)
+
+---
+
+class: center
+
+# Compositor!
+
+![](./images/expose.jpg)
+
+---
+
+class: center, middle
+
+![](./images/x-architecture.png)
+
+---
+
+# X-Window
+
+- Client / Server 架构引入了过多复杂度
+  - 导致 3D 渲染性能降低
+  - Compositor
+- 需要做的工作越来越少，还做了一些重复工作
+  - KMS
+  - Compositor
+- 访问远程服务器图形界面的需求降低
+
+---
+
+class: middle, center
+
+![要你何用](./images/no-use.jpg)
+
+---
+
+class: middle, center
+
+![](./images/x11.png)
+
+---
+
+class: middle, center
+
+# Wayland!
+
+---
+
+# 复用现有组件
+
+- KMS
+- DRM
+- GEM
+- ...
+
+---
+
+class: middle, center
+
+![](./images/wayland-architecture.png)
+
+---
+
+# Wayland
+
+- 依然是 Client / Server 架构
+  - 默认不支持远程访问
+- Compositor 直接与 kernel / client 通讯
+  - Compositor 可以立即知道哪个 client 需要接收时间
+- Client 直接进行绘图
+
+---
+
+# 实现
+
+- Server
+  - Weston - 参考实现
+  - Kwin - KDE
+  - Mutter - Gnome
+  - ...
+
+- Client
+  - Qt
+  - Gtk+
+
+---
+
+class: middle, center
+
+# XWayland
+
+---
+
+class: middle, center
+
+![](./images/x-on-wayland.png)
+
+---
+
+class: middle, center
+
+![](./images/linus-fuck-huangrenxun.jpg)
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
