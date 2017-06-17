@@ -150,6 +150,7 @@ post.save().then(function() {
 
 - 发帖后三十分钟内可以修改正文，之后不再允许修改
 - 不允许发帖人黑名单中的用户回贴
+- 不允许查看标记为「隐藏」的帖子
 - ……
 
 -----
@@ -158,3 +159,51 @@ post.save().then(function() {
 
 ![bg](images/luke.jpeg)
 
+-----
+
+#### `发帖三十分钟后，不允许修改正文`
+
+使用云引擎 hook 功能实现：
+
+```js
+AV.Cloud.beforeUpdate('Post', function(request, reponse) {
+  var post = request.object;
+  if (new Date() > (post.createdAt + new Minute(30))) {
+    response.error('can not modify post.');
+    return;
+  }
+  response.success();
+});
+```
+
+-----
+
+### `不允许查看标记为「隐藏」的帖子`
+
+使用云引擎云函数实现：
+
+```js
+AV.Cloud.define('getPost', function(request, response) {
+  var id = request.params.id;
+  AV.Query(Post).get(id).then(function(post) {
+    if (post.get('isHidden')) {
+      response.success(post);
+      return;
+    }
+    response.error({
+      'error': 401,
+      'message': '没有权限',
+    })
+  }).catch(function(err) {
+    response.error(err);
+  });
+});
+```
+
+-----
+
+# 总结
+
+- 不要相信 App Key 能够不泄漏
+- 使用 class 与 object 的权限，进行数据权限限制
+- 使用云引擎，进行特殊权限限制
